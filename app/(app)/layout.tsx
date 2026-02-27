@@ -23,9 +23,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               TaxPilot
             </span>
           </Link>
-          <Link href="/review-status" className="text-sm text-slate-400 hover:text-white transition-colors">
-            Review Status
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="/trace" className="text-sm text-slate-400 hover:text-white transition-colors">
+              Tracing
+            </Link>
+            <Link href="/review-status" className="text-sm text-slate-400 hover:text-white transition-colors">
+              Review
+            </Link>
+          </div>
         </div>
       </header>
 
