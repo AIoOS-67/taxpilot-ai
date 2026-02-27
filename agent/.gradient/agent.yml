@@ -1,0 +1,17 @@
+name: taxpilot-agent
+version: "1.0.0"
+description: "TaxPilot AI — Multi-node tax filing agent with Human-in-the-Loop"
+model: meta-llama/Llama-3.3-70B-Instruct
+framework: langgraph
+entrypoint: main.py
+
+tools:
+  - tax_calculator
+  - knowledge_base
+
+tracing:
+  enabled: true
+
+evaluation:
+  enabled: true
+  dataset: eval/tax_scenarios.json

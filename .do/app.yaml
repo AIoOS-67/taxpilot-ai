@@ -1,0 +1,53 @@
+# DigitalOcean App Platform spec
+name: taxpilot-ai
+region: nyc
+
+services:
+  - name: web
+    dockerfile_path: Dockerfile
+    github:
+      repo: AIoOS-67/taxpilot-ai
+      branch: main
+      deploy_on_push: true
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb
+    routes:
+      - path: /
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${db.DATABASE_URL}
+      - key: DEMO_MODE
+        scope: RUN_TIME
+        value: "true"
+      - key: REVIEWER_PIN
+        scope: RUN_TIME
+        value: "1040"
+      - key: GRADIENT_AGENT_URL
+        scope: RUN_TIME
+        value: ""
+      - key: DO_SPACES_ENDPOINT
+        scope: RUN_TIME
+        value: "https://nyc3.digitaloceanspaces.com"
+      - key: DO_SPACES_REGION
+        scope: RUN_TIME
+        value: "nyc3"
+      - key: DO_SPACES_BUCKET
+        scope: RUN_TIME
+        value: "taxpilot-uploads"
+      - key: DO_SPACES_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: ""
+      - key: DO_SPACES_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        value: ""
+
+databases:
+  - name: db
+    engine: PG
+    version: "16"
+    size: db-s-dev-database
+    num_nodes: 1

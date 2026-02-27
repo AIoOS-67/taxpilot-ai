@@ -3,25 +3,71 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0f172a;
+  --foreground: #e2e8f0;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --input-bg: #0f172a;
+  --accent-green: #10b981;
+  --accent-blue: #3b82f6;
+  --accent-amber: #f59e0b;
+  --accent-red: #ef4444;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .card {
+    @apply bg-[var(--card-bg)] border border-[var(--card-border)] rounded-xl p-4 sm:p-6;
   }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-700 hover:bg-slate-600 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+  }
+
+  .btn-success {
+    @apply bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg transition-colors;
+  }
+
+  .input-field {
+    @apply w-full bg-[var(--input-bg)] border border-[var(--card-border)] rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .chat-bubble-user {
+    @apply bg-blue-600 text-white rounded-2xl rounded-br-md px-4 py-3 max-w-[85%] ml-auto;
+  }
+
+  .chat-bubble-assistant {
+    @apply bg-slate-700 text-slate-100 rounded-2xl rounded-bl-md px-4 py-3 max-w-[85%];
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-green { @apply badge bg-emerald-900/50 text-emerald-400 border border-emerald-700; }
+  .badge-blue { @apply badge bg-blue-900/50 text-blue-400 border border-blue-700; }
+  .badge-amber { @apply badge bg-amber-900/50 text-amber-400 border border-amber-700; }
+  .badge-red { @apply badge bg-red-900/50 text-red-400 border border-red-700; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+@media all and (display-mode: standalone) {
+  body { padding-top: env(safe-area-inset-top); }
 }
