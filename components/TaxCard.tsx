@@ -49,8 +49,10 @@ export default function TaxCard({ card }: { card: BridgeCard }) {
         <div className="space-y-1 mt-3 text-xs">
           {d.gross_income != null && <div className="flex justify-between"><span className="text-slate-500">Income</span><span>${d.gross_income.toLocaleString()}</span></div>}
           {d.deductions != null && <div className="flex justify-between"><span className="text-slate-500">Deductions</span><span>-${d.deductions.toLocaleString()}</span></div>}
-          {d.federal_tax != null && <div className="flex justify-between"><span className="text-slate-500">Tax</span><span>${d.federal_tax.toLocaleString()}</span></div>}
+          {d.taxable_income != null && <div className="flex justify-between font-medium border-t border-slate-700 pt-1"><span className="text-slate-400">Taxable Income</span><span>${d.taxable_income.toLocaleString()}</span></div>}
+          {d.federal_tax != null && <div className="flex justify-between"><span className="text-slate-500">Federal Tax</span><span>${d.federal_tax.toLocaleString()}</span></div>}
           {d.withheld != null && <div className="flex justify-between"><span className="text-slate-500">Withheld</span><span>${d.withheld.toLocaleString()}</span></div>}
+          {d.effective_rate != null && <div className="flex justify-between"><span className="text-slate-500">Effective Rate</span><span>{d.effective_rate}%</span></div>}
         </div>
       </div>
     );

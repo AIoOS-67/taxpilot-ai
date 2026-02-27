@@ -35,19 +35,23 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Link href="/interview" className="card hover:border-blue-500/50 transition-colors group">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{"\ud83d\udcac"}</span>
+            <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              {"\ud83d\udcac"}
+            </div>
             <div>
               <h3 className="font-semibold group-hover:text-blue-400 transition-colors">
                 {session ? "Continue Filing" : "Start Filing"}
               </h3>
-              <p className="text-sm text-slate-500">Chat with TaxPilot AI</p>
+              <p className="text-sm text-slate-500">Chat with TaxPilot AI agents</p>
             </div>
           </div>
         </Link>
 
         <Link href="/upload" className="card hover:border-blue-500/50 transition-colors group">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{"\ud83d\udcf8"}</span>
+            <div className="w-12 h-12 rounded-xl bg-cyan-600/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              {"\ud83d\udcf8"}
+            </div>
             <div>
               <h3 className="font-semibold group-hover:text-blue-400 transition-colors">Upload W-2</h3>
               <p className="text-sm text-slate-500">Snap a photo or upload file</p>
@@ -57,7 +61,9 @@ export default function DashboardPage() {
 
         <Link href="/result" className="card hover:border-blue-500/50 transition-colors group">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{"\ud83d\udccb"}</span>
+            <div className="w-12 h-12 rounded-xl bg-emerald-600/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              {"\ud83d\udccb"}
+            </div>
             <div>
               <h3 className="font-semibold group-hover:text-blue-400 transition-colors">View Results</h3>
               <p className="text-sm text-slate-500">Form 1040 preview & refund</p>
@@ -67,10 +73,12 @@ export default function DashboardPage() {
 
         <Link href="/review-status" className="card hover:border-blue-500/50 transition-colors group">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{"\u2705"}</span>
+            <div className="w-12 h-12 rounded-xl bg-amber-600/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+              {"\u2705"}
+            </div>
             <div>
               <h3 className="font-semibold group-hover:text-blue-400 transition-colors">Review Status</h3>
-              <p className="text-sm text-slate-500">Professional review progress</p>
+              <p className="text-sm text-slate-500">Professional EA review progress</p>
             </div>
           </div>
         </Link>
@@ -103,6 +111,35 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* Architecture diagram */}
+      <div className="card">
+        <h3 className="font-semibold text-sm mb-4">Multi-Agent Pipeline</h3>
+        <div className="flex flex-wrap items-center justify-center gap-2 text-xs">
+          {[
+            { label: "Intake", color: "bg-cyan-600/30 border-cyan-700 text-cyan-400" },
+            { label: "\u2192", color: "text-slate-600" },
+            { label: "Classifier", color: "bg-blue-600/30 border-blue-700 text-blue-400" },
+            { label: "\u2192", color: "text-slate-600" },
+            { label: "Deduction (RAG)", color: "bg-amber-600/30 border-amber-700 text-amber-400" },
+            { label: "\u2192", color: "text-slate-600" },
+            { label: "Form Builder", color: "bg-purple-600/30 border-purple-700 text-purple-400" },
+            { label: "\u2192", color: "text-slate-600" },
+            { label: "Review + HITL", color: "bg-emerald-600/30 border-emerald-700 text-emerald-400" },
+          ].map((item, i) =>
+            item.label === "\u2192" ? (
+              <span key={i} className={item.color}>{item.label}</span>
+            ) : (
+              <span key={i} className={`px-2.5 py-1 rounded-lg border ${item.color}`}>
+                {item.label}
+              </span>
+            )
+          )}
+        </div>
+        <p className="text-[10px] text-slate-600 text-center mt-3">
+          Powered by DigitalOcean Gradient AI &bull; Llama 3.3 70B &bull; Knowledge Base RAG
+        </p>
+      </div>
+
       <div className="card border-blue-900/50 bg-blue-950/20">
         <div className="flex gap-3">
           <span className="text-lg">{"\u2139\ufe0f"}</span>
@@ -111,7 +148,7 @@ export default function DashboardPage() {
             <ol className="list-decimal list-inside text-slate-400 space-y-1">
               <li>Chat with our AI to provide your tax information</li>
               <li>Upload W-2s and tax documents with your camera</li>
-              <li>AI finds deductions and calculates your return</li>
+              <li>AI finds deductions using IRS Knowledge Base (RAG)</li>
               <li>A licensed EA reviews flagged items for accuracy</li>
               <li>View your completed Form 1040 and estimated refund</li>
             </ol>
