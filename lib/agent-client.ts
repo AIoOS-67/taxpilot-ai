@@ -51,6 +51,17 @@ function getSession(sessionId: string) {
   return sessionState[sessionId];
 }
 
+function parseLargestNumber(text: string, fallback: number): number {
+  const regex = /\$?([\d,]{3,})/g;
+  let match;
+  let largest = 0;
+  while ((match = regex.exec(text)) !== null) {
+    const num = parseInt(match[1].replace(/,/g, ''));
+    if (num > largest) largest = num;
+  }
+  return largest > 0 ? largest : fallback;
+}
+
 function getDemoResponse(sessionId: string, message: string): AgentResponse {
   const lower = message.toLowerCase();
   const session = getSession(sessionId);
@@ -128,8 +139,8 @@ function getDemoResponse(sessionId: string, message: string): AgentResponse {
 
   // Income responses
   if (lower.includes('w-2') || lower.includes('w2') || lower.includes('salary') || lower.includes('employer')) {
-    const incomeMatch = lower.match(/\$?([\d,]+)/);
-    const income = incomeMatch ? parseInt(incomeMatch[1].replace(/,/g, '')) : 75000;
+    // Find the largest number in the message (skip small numbers like "2" in "W-2")
+    const income = parseLargestNumber(lower, 75000);
     session.step = 3;
     session.income = income;
     const withheld = Math.round(income * 0.167);
@@ -153,8 +164,7 @@ function getDemoResponse(sessionId: string, message: string): AgentResponse {
   }
 
   if (lower.match(/\$?\d{4,}/) && session.step < 3) {
-    const incomeMatch = lower.match(/\$?([\d,]+)/);
-    const income = incomeMatch ? parseInt(incomeMatch[1].replace(/,/g, '')) : 75000;
+    const income = parseLargestNumber(lower, 75000);
     session.step = 3;
     session.income = income;
     const withheld = Math.round(income * 0.167);
@@ -178,8 +188,7 @@ function getDemoResponse(sessionId: string, message: string): AgentResponse {
 
   // Self-employed / 1099
   if (lower.includes('self-employed') || lower.includes('1099') || lower.includes('freelance') || lower.includes('contractor')) {
-    const incomeMatch = lower.match(/\$?([\d,]+)/);
-    const income = incomeMatch ? parseInt(incomeMatch[1].replace(/,/g, '')) : 85000;
+    const income = parseLargestNumber(lower, 85000);
     session.step = 3;
     session.income = income;
     const seTax = Math.round(income * 0.9235 * 0.153);
